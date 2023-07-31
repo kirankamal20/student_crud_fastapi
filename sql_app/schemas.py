@@ -37,5 +37,8 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+    def __init__(self, id: int, is_active: bool, items: list[Student] = []) -> None:
+        super().__init__(id=id, is_active=is_active)
+        self.items = items
         
  
