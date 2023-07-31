@@ -3,11 +3,11 @@ from pydantic import BaseModel
 
 class StudentBase(BaseModel):
     student_name: str
-    student_age: str | None = None
+    student_age: str 
     gender: str
     country: str
     date_of_birth: str
-    image: str | None = None
+    image: str
 
 
 class StudentCreate(StudentBase):
