@@ -1,5 +1,5 @@
 import os
-from typing import Annotated
+from typing_extensions import Annotated
 from click import File
 from fastapi import Depends, FastAPI, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse
