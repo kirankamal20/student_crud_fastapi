@@ -25,7 +25,7 @@ def get_db():
 def loginUser(user: schemas.UserCreate ,db:Session = Depends(get_db)):
     db_user = crud.login(db , email=user.email )
     if not db_user:
-        raise HTTPException(status_code=400, detail="Incorrect username") 
+        raise HTTPException(status_code=401, detail="Incorrect username") 
     raise HTTPException(status_code=200, detail="Successfully Logged")
        
 
