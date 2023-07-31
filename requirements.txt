@@ -2,6 +2,8 @@ anyio
 starlette
 pydantic
 fastapi
+psycopg2-binary
+python-multipart
+sqlalchemy
 uvicorn
 typing-extensions
-sqlalchemy
