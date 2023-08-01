@@ -23,9 +23,9 @@ def get_db():
 
 @app.post("/login",response_model=schemas.User)
 def loginUser(user: schemas.UserCreate ,db:Session = Depends(get_db)):
-    db_user = crud.login(db , email=user.email )
+    db_user = crud.login(db , email=user.email,password=user.password )
     if not db_user:
-        raise HTTPException(status_code=401, detail="Incorrect username") 
+        raise HTTPException(status_code=401, detail="Incorrect username or password") 
     raise HTTPException(status_code=200, detail="Successfully Logged")
        
 
