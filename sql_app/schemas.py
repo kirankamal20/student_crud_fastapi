@@ -10,8 +10,7 @@ class StudentBase(BaseModel):
     image: str
 
 
-class StudentCreate(StudentBase):
-    pass
+ 
 
 
 class Student(StudentBase):
@@ -33,7 +32,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     is_active: bool
-    items: list[Student] = []
+    items:  Student 
 
      
         

@@ -34,7 +34,7 @@ def retrive_students(db: Session,  student_id:int):
     return db.query(models.Student).filter(models.Student.id==student_id).all()
 
 
-def add_student(db: Session, student: schemas.StudentCreate, user_id: int):
+def add_student(db: Session, student: schemas.StudentBase, user_id: int):
     db_student = models.Student(**student.dict(), owner_id=user_id)
     db.add(db_student)
     db.commit()
@@ -47,12 +47,12 @@ def delete_student(db:Session,student_id:int):
    db.commit()
    return db_student
 
-def update_student(db:Session,student_id:int,student: schemas.StudentCreate):
-   db_student=db.query(models.Student).get(student_id)
-   if db_student:
-        db_student.title = student.title
-        db_student.description = student.description
-        db.commit()
+# def update_student(db:Session,student_id:int,student: schemas.StudentBase):
+#    db_student=db.query(models.Student).get(student_id)
+#    if db_student:
+#         db_student.title = student.title
+#         db_student.description = student.description
+#         db.commit()
 
     # close the session
    db.close()
