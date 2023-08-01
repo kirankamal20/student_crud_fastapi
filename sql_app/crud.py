@@ -51,13 +51,15 @@ def delete_student(db:Session,student_id:int):
    db.commit()
    return db_student
 
-# def update_student(db:Session,student_id:int,student: schemas.StudentBase):
-#    db_student=db.query(models.Student).get(student_id)
-#    if db_student:
-#         db_student.title = student.title
-#         db_student.description = student.description
-#         db.commit()
-
-    # close the session
+def update_student(db:Session,student_id:int,student: schemas.StudentBase):
+   db_student=db.query(models.Student).get(student_id)
+   if db_student:
+        db_student.student_name = student.student_name
+        db_student.student_age = student.student_age 
+        db_student.date_of_birth = student.date_of_birth
+        db_student.country = student.country
+        db_student.gender = student.gender
+        db_student.image = student.image
+        db.commit()
    db.close()
    return db_student

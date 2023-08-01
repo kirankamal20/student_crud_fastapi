@@ -9,10 +9,6 @@ class StudentBase(BaseModel):
     date_of_birth: str
     image: str
 
-
- 
-
-
 class Student(StudentBase):
     id: int
     owner_id: int
