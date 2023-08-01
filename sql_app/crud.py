@@ -24,8 +24,7 @@ def get_users(db: Session):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_password = user.password
-    db_user = models.User(email=user.email, password=fake_password)
+    db_user = models.User(email=user.email, password=user.password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
