@@ -27,26 +27,29 @@ def login(user: schemas.UserCreate ,db:Session = Depends(get_db)):
         db_user = crud.login(db , email=user.email,password=user.password )
         if not db_user:
             raise HTTPException(status_code=401, detail="Incorrect username or password") 
-        raise HTTPException(status_code=200, detail="Successfully Logged")
+        raise HTTPException(status_code=200, detail={"message":"Successfully Logged","id":db_user.id})
     except HTTPException as ex: 
         print(ex.detail)
         raise HTTPException(status_code=ex.status_code, detail=ex.detail)
        
 
 
+
 @app.post("/signup")
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
     try:
-        db_user = crud.get_user_by_email(db, email=user.email)
-        if db_user:
-            raise HTTPException(status_code=400, detail="Email already registered")
-        return crud.create_user(db=db, user=user)
-    except HTTPException as ex: 
+        if not user.email:
+            raise HTTPException(status_code=400, detail="Email cannot be empty")
+        else:
+            db_user = crud.get_user_by_email(db, email=user.email)
+            if db_user:
+                raise HTTPException(status_code=400, detail="Email already registered")
+            return crud.create_user(db=db, user=user)
+    except HTTPException as ex:
         print(ex.detail)
         raise HTTPException(status_code=ex.status_code, detail=ex.detail)
-
-
-@app.get("/getallstudents/")
+ 
+@app.get("/getallUsers/")
 def getallstudents( db: Session = Depends(get_db)):
     try:
         users = crud.get_users(db)
@@ -56,10 +59,10 @@ def getallstudents( db: Session = Depends(get_db)):
         raise HTTPException(status_code=ex.status_code, detail=ex.detail)
 
 
-@app.get("/getstudent/{user_id}",)
-def get_student(user_id: int, db: Session = Depends(get_db)):
+@app.get("/getAstudent/{student_id}",)
+def get_student(student_id: int, db: Session = Depends(get_db)):
     try:
-        db_user = crud.get_user(db, user_id=user_id)
+        db_user = crud.retrive_students(db, student_id = student_id)
         if db_user is None:
             raise HTTPException(status_code=404, detail="student not found")
         return db_user
@@ -68,13 +71,14 @@ def get_student(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=ex.status_code, detail=ex.detail)
 
 
-@app.post("/students/{user_id}/ ", response_model=schemas.Student)
+@app.post("/addstudent/{user_id}")
 async def add_student(
-    user_id: int, student_name: Annotated[str, Form()], student_age: Annotated[str, Form()],date_of_birth: Annotated[str, Form()] ,gender: Annotated[str, Form()],country: Annotated[str, Form()], image:  UploadFile = File(...) , db: Session = Depends(get_db)):
+    user_id: int,student_name: Annotated[str, Form()], student_age: Annotated[str, Form()],date_of_birth: Annotated[str, Form()] ,gender: Annotated[str, Form()],country: Annotated[str, Form()], image:  UploadFile = File(...) ,  db: Session = Depends(get_db)):
     try:
         db_user = crud.get_user(db, user_id=user_id)
         if db_user is None:
-            raise HTTPException(status_code=404, detail="student not found")
+            raise HTTPException(status_code=404, detail="User not found")
+         
         if image.filename is not None:
             file_name = os.path.basename(image.filename)
         else:
@@ -93,8 +97,8 @@ async def add_student(
         print(ex.detail)
         raise HTTPException(status_code=ex.status_code, detail=ex.detail)
     
-@app.get("/students/", )
-def read_student( db: Session = Depends(get_db)):
+@app.get("/getAllstudents/", )
+def get_all_students( db: Session = Depends(get_db)):
     try:
         students = crud.get_all_student(db)
         return students
