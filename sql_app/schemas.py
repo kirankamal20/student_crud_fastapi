@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel 
 
 
 class StudentBase(BaseModel):
@@ -18,7 +18,11 @@ class Student(StudentBase):
 
 
 class UserBase(BaseModel):
-    email: str
+    email:str
+    #     EmailStr
+
+    # def __repr__(self):
+    #     return f"UserBase(email={self.email})"
 
 
 class UserCreate(UserBase):
@@ -30,6 +34,11 @@ class User(UserBase):
     is_active: bool
     items:  Student 
 
-     
+class DeleteStudent(BaseModel):
+    user_id:int
+    student_id:int
+class GetAStudent(BaseModel):
+    user_id:int
+    student_id:int
         
  

@@ -1,3 +1,4 @@
+import os
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -31,11 +32,13 @@ def create_user(db: Session, user: schemas.UserCreate):
     return db_user
 
 
-def get_all_student(db: Session):
-    return db.query(models.Student).order_by(models.Student.id.asc()).all()
+def get_all_student(db: Session,user_id:int):
+    return  db.query(models.Student).filter(models.Student.owner_id==user_id).first()
 
-def retrive_students(db: Session,  student_id:int):
-    return db.query(models.Student).filter(models.Student.id==student_id).all()
+# db.query(models.Student).order_by(models.Student.id.asc()).all()
+
+def get_a_student(db: Session,  student_id:int,user_id:int):
+    return db.query(models.Student).filter(models.Student.id==student_id,models.Student.owner_id==user_id).first()
 
 
 def add_student(db: Session, student: schemas.StudentBase, user_id: int):
@@ -45,8 +48,8 @@ def add_student(db: Session, student: schemas.StudentBase, user_id: int):
     db.refresh(db_student)
     return db_student
 
-def delete_student(db:Session,student_id:int):
-   db_student=db.query(models. Student).filter_by(id=student_id).first()
+def delete_student(db:Session,student_id:int,user_id):
+   db_student=db.query(models. Student).filter_by(id=student_id,owner_id=user_id).first()
    db.delete(db_student)
    db.commit()
    return db_student
@@ -63,3 +66,11 @@ def update_student(db:Session,student_id:int,student: schemas.StudentBase):
         db.commit()
    db.close()
    return db_student
+
+def delete_file(file_name):
+    file_path = f"images/{file_name}"
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"File {file_path} deleted successfully.")
+    else:
+        print(f"File {file_path} does not exist.")
