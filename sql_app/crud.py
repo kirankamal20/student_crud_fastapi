@@ -33,7 +33,7 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 
 def get_all_student(db: Session,user_id:int):
-    return  db.query(models.Student).filter(models.Student.owner_id==user_id).first()
+    return  db.query(models.Student).filter(models.Student.owner_id==user_id).all()
 
 # db.query(models.Student).order_by(models.Student.id.asc()).all()
 
