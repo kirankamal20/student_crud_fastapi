@@ -20,7 +20,7 @@ def login(db: Session, email: str,password):
         return None
 
 def get_users(db: Session):
-    return db.query(models.User.email,models.User.id).all()
+    return db.query(models.User ).all()
 
 
 def create_user(db: Session, user: schemas.UserCreate):
