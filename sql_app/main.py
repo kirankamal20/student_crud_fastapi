@@ -1,14 +1,14 @@
 import os
 from typing_extensions import Annotated
 from click import File
-from fastapi import Depends, FastAPI, Form, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, Form, HTTPException, UploadFile, WebSocket
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from fastapi import File, UploadFile, FastAPI
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 from fastapi import UploadFile
-models.Base.metadata.create_all(bind=engine)
+ 
 
 app = FastAPI()
 
@@ -168,3 +168,10 @@ async def download_file(file_name: str):
     except HTTPException as ex: 
         print(ex.detail)
         raise HTTPException(status_code=ex.status_code, detail=ex.detail)
+    
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Message text was: {data}")
