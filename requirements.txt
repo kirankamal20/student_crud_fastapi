@@ -7,4 +7,5 @@ sqlalchemy
 uvicorn
 typing-extensions
 psycopg2
+websockets
 
