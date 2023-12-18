@@ -8,10 +8,10 @@ from fastapi import File, UploadFile, FastAPI
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 from fastapi import UploadFile
- 
+from passlib.context import CryptContext 
 
 app = FastAPI()
-
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Dependency
 def get_db():
@@ -107,6 +107,7 @@ async def add_student(
          
         if image.filename is not None:
             file_name = os.path.basename(image.filename)
+            
         else:
             file_name = ""
         file_path = f"images/{file_name}"
