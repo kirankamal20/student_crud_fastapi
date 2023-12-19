@@ -1,4 +1,5 @@
-from fastapi import  FastAPI
+ 
+from fastapi import FastAPI
 from sql_app.apis.base import router
 
 def include_router(app:FastAPI):

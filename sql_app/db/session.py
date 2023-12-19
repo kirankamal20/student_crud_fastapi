@@ -1,4 +1,4 @@
-from typing import Generator
+ 
 
 from sql_app.database import SessionLocal
 

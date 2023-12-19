@@ -9,4 +9,7 @@ typing-extensions
 psycopg2
 websockets
 passlib
+PyJWT
+python-jose
+ 
 

@@ -1,23 +1,18 @@
 import os
 from typing_extensions import Annotated
-from click import File
-from datetime import timedelta
-from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, UploadFile, WebSocket, WebSocketDisconnect, HTTPException
+ 
+from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile, HTTPException
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
-from fastapi import File, UploadFile, FastAPI
+from fastapi import File, UploadFile
 from sql_app.db.repository import crud
 from sql_app.db.session import get_db
 
 from sql_app.schemas import schemas
-from sql_app.core.security import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, verify_token
-from sql_app.core.websockets import ConnectionManager
+from sql_app.core.security import verify_token
  
 from fastapi import UploadFile
-from fastapi import FastAPI
-from starlette.config import Config
 
-from sql_app.database import SessionLocal
  
  
  
