@@ -1,17 +1,13 @@
 import os
 from sqlalchemy.orm import Session
+from sql_app.core.hashing import Hasher
 
-from . import models, schemas
+from sql_app.db  . models import models
+from sql_app. schemas import schemas
 from passlib.context import CryptContext
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
 
 
-def get_password_hash(password):
-    return pwd_context.hash(password)
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
@@ -24,7 +20,7 @@ def login(db: Session, email: str,password):
     user = db.query(models.User).filter(models.User.email == email).first()
 
     if user is not None:
-         hashedPassword=  verify_password( password,  user.password)
+         hashedPassword=Hasher.  verify_password( password,  user.password)
          if hashedPassword is True:
             return user
     else:
@@ -35,7 +31,7 @@ def get_users(db: Session):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    hashedPassword = get_password_hash(user.password)
+    hashedPassword = Hasher.get_password_hash(user.password)
     db_user = models.User(email=user.email, password= hashedPassword)
     db.add(db_user)
     db.commit()
