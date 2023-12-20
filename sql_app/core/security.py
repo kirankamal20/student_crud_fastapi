@@ -24,7 +24,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 async def verify_token(   token: Annotated[HTTPAuthorizationCredentials, Depends(security)]):
         try:
             payload =jwt.decode(token.credentials, SECRET_KEY, algorithms=[ALGORITHM])
-            if (payload['scope'] == 'access_token'):
+            if (payload.get('scope')   == "access_token"):
                    userid  = payload. get("userId")
                      
                    return userid
