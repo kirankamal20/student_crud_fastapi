@@ -10,6 +10,7 @@ from sql_app.core.security import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_tok
 
 router = APIRouter(tags=["Authentication"] )
 
+ 
 
 @router.post("/login", )
 def login(user: schemas.UserCreate ,db:Session = Depends(get_db)):
@@ -19,14 +20,12 @@ def login(user: schemas.UserCreate ,db:Session = Depends(get_db)):
             raise HTTPException(status_code=401, detail="Incorrect username or password") 
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(
-        data={"userId": db_user.id}, expires_delta=access_token_expires)
+        data={"userId": db_user.id,'scope': 'access_token'}, expires_delta=access_token_expires)
         raise HTTPException(status_code=200, detail={"token": access_token})
     except HTTPException as ex: 
         print(ex.detail)
         raise HTTPException(status_code=ex.status_code, detail=ex.detail)
        
-
-
 
 @router.post("/signup")
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):

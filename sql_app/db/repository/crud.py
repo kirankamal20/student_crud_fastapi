@@ -6,9 +6,6 @@ from sql_app.db  . models import models
 from sql_app. schemas import schemas
 from passlib.context import CryptContext
 
-
-
-
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 

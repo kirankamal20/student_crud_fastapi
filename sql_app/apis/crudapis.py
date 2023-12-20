@@ -7,21 +7,11 @@ from sqlalchemy.orm import Session
 from fastapi import File, UploadFile
 from sql_app.db.repository import crud
 from sql_app.db.session import get_db
-
 from sql_app.schemas import schemas
 from sql_app.core.security import verify_token
- 
 from fastapi import UploadFile
-
- 
- 
  
 router = APIRouter(tags=["CRUD Operations"] )
-
-# Dependency
- 
- 
- 
  
 @router.get("/getallUsers")
 async def getAllUsers(db: Session = Depends(get_db), token: str = Depends(verify_token)):
